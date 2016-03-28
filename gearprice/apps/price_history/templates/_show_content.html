@@ -1,0 +1,86 @@
+{% load humanize %}
+
+<h2>Statistics for {{gear.name}}</h2>
+
+{% if price_history %}
+
+  <div class="row">
+    <div class="col-xs-8" style="padding-top: 20px">
+      <p>First price: <code>{{oldest_price.price|floatformat:2|intcomma}}</code>, at {{oldest_price.store_name}} ({{oldest_price.date|naturalday}}).</p>
+      <p>Last price: <code>{{newest_price.price|floatformat:2|intcomma}}</code>, at {{newest_price.store_name}} ({{newest_price.date|naturalday}}).</p>
+    </div>
+
+    <div class="col-xs-4" style="margin-top: -10px; margin-bottom: -10px;">
+      {% if gear.image_url%}
+      <img src="{{ gear.image_url }}" class="img-responsive">
+      {% endif %}
+    </div>
+  </div>
+
+
+  <div class="row">
+    <div id="chart" style="height: 300px; margin-top: 10px"></div>
+  </div>
+
+
+
+
+{% else %}
+  <div class="bs-callout bs-callout-danger">
+    <h4>Sorry!</h4>
+    <p><small>There is no statistics for the <code>{{gear.name}}</code> yet.</small></p>
+  </div>
+{% endif %}
+
+<script src="/static/js/d3.min.js" charset="utf-8"></script>
+<script src="/static/xcharts/xcharts.js"></script>
+
+
+<script>
+  var data = {
+    "xScale": "time",
+    "yScale": "linear",
+    "main": [
+      {
+        "className": ".pizza",
+        "data": [ {{ graph_data|safe }} ]
+      }
+    ]
+  };
+
+  var opts = {
+    "dataFormatX": function (x) { return d3.time.format('%Y-%m-%d').parse(x); },
+    "tickFormatX": function (x) { return d3.time.format('%Y-%m-%d')(x); }
+  };
+
+  var myChart = new xChart('line-dotted', data, '#chart', opts);
+</script>
+
+
+<script>
+  var title = "{{gear.brand.name}} - {{gear.name}}";
+  var description = "Find out what happened with {{gear.brand.name}} - {{gear.name}} prices";
+
+  $('meta[name="title"]').attr("content", title);
+  $('meta[name="description"]').attr("content", description);
+
+  $("meta[property='og\\:title']").attr("content", title);
+  $("meta[property='og\\:description']").attr("content", description);
+  $("meta[property='og\\:image']").attr("content", "{{gear.image_url}}");
+  $("meta[property='og\\:url']").attr("content", "http://gearprice.info/gear/{{gear.id}}");
+</script>
+
+
+<script>
+  populate_gear_list({{gear.brand.id}});
+
+
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-41116701-3', 'gearprice.info');
+  ga('send', 'pageview');
+
+</script>

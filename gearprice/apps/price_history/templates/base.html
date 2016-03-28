@@ -1,0 +1,48 @@
+{% load bootstrap3 %}
+
+<!DOCTYPE html>
+<html>
+    <head>
+      <title>{{ gear.name|default:"Gearprice" }}</title>
+      <meta charset="utf-8">
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+      <!-- for Google -->
+      <meta name="description" content="Keep track of camera gear prices. If you want to buy gear, this will help you to choose when the it is the best time to buy, or see how brands and camera prices react through time.">
+      <meta name="keywords" content="camera gear,price,camera,gear,price information,price tracking,camera price" />
+      <link rel="author" href="https://plus.google.com/u/0/110592850517779041586">
+
+      <!-- for Facebook -->          
+      <meta property="og:title" content="Gearprice" />
+      <meta property="og:type" content="website" />
+      <meta property="og:image" content="http://www.gearprice.info/static/img/gear_price_add.png" />
+      <meta property="og:url" content="http://gearprice.info" />
+      <meta property="og:description" content="Keep track of camera gear prices. If you want to buy gear, this will help you to choose when the it is the best time to buy, or see how brands and camera prices react through time." />
+    </head>
+
+  <body>
+    {# Load CSS #}
+    {% bootstrap_css %}
+    {% block custom_css %}{% endblock %}
+
+    <link rel="stylesheet" href="/static/xcharts/xcharts.css">
+    <link rel="stylesheet" href="/static/css/custom.css">
+
+    <script src="{{ STATIC_URL }}js/jquery.js"></script>
+    <script src="/static/js/spin.min.js" charset="utf-8"></script>
+    <script src="/static/js/jquery.spin.js" charset="utf-8"></script>
+
+    <script src="/static/index.js"></script>
+
+    {# Display django.contrib.messages as Bootstrap alerts #}
+    {% bootstrap_messages %}
+
+    <div id="wrap">
+        {% block content %}{% endblock %}
+    </div>
+
+    {% bootstrap_javascript %}
+
+    {% block custom_js %}{% endblock %}
+  </body>
+</html>

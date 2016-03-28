@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block custom_css %}
+<style>
+    .contact-form {
+        margin-top:70px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+    <div class="col-sm-4">
+        <h3>Drop me a line!</h3>
+        <hr>
+        <address>
+            <strong>Email:</strong> <a href="mailto:#"> name@domain.com</a><br><br>
+            <strong>Phone:</strong> (555)123-4567
+        </address>
+    </div>
+        
+    <div class="col-sm-8 contact-form">
+    <form id="contact" method="post" class="form" role="form">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-xs-6 col-md-6 form-group">
+                <input class="form-control" id="name" name="url" placeholder="URL" type="text" required autofocus />
+            </div>
+            <div class="col-xs-6 col-md-6 form-group">
+                <input class="form-control" id="email" name="xpath" placeholder="XPATH" type="text" required />
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-xs-12 col-md-12 form-group">
+                <button class="btn btn-primary pull-right" type="submit">Submit</button>
+            </div>
+        </div>
+    </form>
+
+    {% if price %}
+    <h3>{{ price }}</h3>
+    {% endif %}
+    <h3>
+    </div>
+</div>
+{% endblock %}
